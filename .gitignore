@@ -1,3 +1,10 @@
+# files not supposed to be shared
+**/.DS_Store
+_nogithub/
+
+##################
+# R-specific files
+
 # History files
 .Rhistory
 .Rapp.history
