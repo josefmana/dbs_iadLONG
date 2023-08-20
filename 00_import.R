@@ -15,9 +15,9 @@ setwd( dirname(getSourceEditorContext()$path) )
 # prepare a folder for sessions info and pre-processed data
 sapply( c("sess","_nogithub/data") , function(i) if( !dir.exists(i) ) dir.create(i) )
 
+
 # ---- read the raw data ----
 
-s <- read.csv( "_nogithub/raw/scoring.csv", sep = ";" )
 v <- read.csv( "_nogithub/raw/var_names.csv", sep = "," ) # variables to keep for re-formatting
 c <- read.csv( "_nogithub/raw/columns.csv", sep = ",", header = F ) %>% unlist() %>% as.character() # variables to keep for final data set
 df <- read.csv( "_nogithub/raw/ITEMPO-ManaLongitudinlnNeur_DATA_2023-08-14_0908.csv", sep = "," ) %>% select( v$orig ) # data
