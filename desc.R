@@ -1,4 +1,4 @@
-# This script extracts descriptions (numerical & visual). This script ought to be run only after 00_import.R!
+# This script extracts descriptions (numerical & visual). It ought to be run only after 00_import.R!
 
 # Inputs: pre-formatted longitudinal data (d0), scoring file (sc)
 # Outputs:
@@ -15,11 +15,11 @@ for ( i in pkgs ) {
 # set working directory (works only in RStudio)
 setwd( dirname(getSourceEditorContext()$path) )
 
-# prepare a folder for sessions info and pre-processed data
+# prepare a folder for sessions info, tables and figures
 sapply( c("sess","tabs","figs") , function(i) if( !dir.exists(i) ) dir.create(i) )
 
 # prepare colorblind palette
-cbPal <- c( "#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7" )
+#cbPal <- c( "#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7" )
 
 # set theme for plotting in ggplot2
 theme_set( theme_minimal(base_size = 14) )
@@ -27,6 +27,7 @@ theme_set( theme_minimal(base_size = 14) )
 # read the input files
 d0 <- read.csv( "_nogithub/data/data_stn_bil.csv", sep = "\t" )
 sc <- read.csv( "_nogithub/raw/scoring.csv", sep = ";" )
+
 
 # ---- prepare a trimmed data set ----
 
@@ -67,9 +68,14 @@ d1 %>%
   geom_text( color = "white", angle = 90 ) +
   scale_fill_manual( values = c("grey81", "#0072B2") ) +
   labs( y = NULL, x = NULL ) +
-  theme( legend.position = "bottom", axis.text.x = element_text( angle = 90 ) )
+  theme( legend.position = "bottom", axis.text.x = element_text( angle = 90, vjust = 0.5 ) )
 
 # save it
 ggsave( "figs/faq_present.jpg", dpi = 300, width = 2.5 * 13.1, height = 8.94 )
 
+
+# ---- session info ----
+
+# write the sessionInfo() into a .txt file
+capture.output( sessionInfo(), file = "sess/desc.txt" )
 

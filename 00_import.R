@@ -81,7 +81,7 @@ df <- df %>%
 write.table( df, "_nogithub/data/data_stn_bil.csv", sep = "\t", na = c("NA",""), quote = F, row.names = F )
 
 
-# ----------- session info -----------
+# ---- session info ----
 
 # write the sessionInfo() into a .txt file
 capture.output( sessionInfo(), file = "sess/import.txt" )
