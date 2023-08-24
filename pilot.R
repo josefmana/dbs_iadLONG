@@ -5,7 +5,7 @@
 # Outputs: time contrasts derived from an appropriate GLMM
 
 # list required packages into a character object
-pkgs <- c( "rstudioapi", "dplyr", "tidyverse", "ggplot2", "rstanarm", "bayesplot" )
+pkgs <- c( "rstudioapi", "dplyr", "tidyverse", "ggplot2", "brms", "tidybayes" )
 
 # load or install packages as needed
 for ( i in pkgs ) {
@@ -21,7 +21,7 @@ sapply( c("sess","mods","tabs","figs") , function(i) if( !dir.exists(i) ) dir.cr
 sapply( paste0( c("mods","tabs","figs"), "/pilot" ), function(i) if( !dir.exists(i) ) dir.create(i) )
 
 # set theme for plotting in ggplot2
-theme_set( bayesplot::theme_default( base_size = 18 ) )
+theme_set( theme_default( base_size = 18 ) )
 
 # set-up Stan options
 mcc = 8 # all CPU cores
@@ -156,23 +156,94 @@ sanity_plot( data = d1, output = "figs/pilot/sanity_postcheck.jpg" )
 # ---- statistical modelling ----
 
 # prepare a data set for Bayesian hierarchical modelling
-# will fit two Gaussian LMMs using (i) raw FAQ, (ii) log-transformed FAQ (+1)
-# adding one before the log-transformation is not really well thought through and should be double checked to see
-# if it biases the results; nevertheless, adding one lead to and interpretable point 0 in the transformed data ( lfaq = 0 <=> faq = 0)
-# still, using a mixtureor shifted lognormal likelihood may be better (even better, do an item-level analysis instead)
-d <- with( d1, data.frame( faq = faq, lfaq = log(faq+1), event = event, id = factor(id) ) )
+# will fit three (hurdle) lognormal GLMMs using events as: (i) 'fixed effects', (ii) 'random effects' and (iii) monotonic effects
+d <- with( d1, data.frame( id = factor(id), event = event, faq = faq ) )
 
-# start by fitting a raw Gaussian LMM
-m.raw <- stan_lmer( faq ~ 1 + (1 | event) + (1 | id), data = d, chains = ch, iter = it, warmup = wu, cores = mcc, adapt_delta = ad, seed = s )
-m.log <- update( m.raw, formula = lfaq ~ 1 + (1 | event) + (1 | id) )
+# set-up dummy coding for event unpooled effects via indicator variables
+contrasts(d$event) <- contr.treatment( length( levels(d$event) ) )
+
+# representation: set-up linear models
+f <- list( fix = bf( faq ~ 1 + event + (1 | id) ), # events unpooled (with 'fixed' priors)
+           ran = bf( faq ~ 1 + (1 | event) + (1 | id) ), # paritally pooled (statistically) independent events ('random effects')
+           mon = bf( faq ~ 1 + mo(event) + (1 | id) ) # events modelled as a monotonic ordinal predictor
+           )
+
+# representation: set-up priors
+p <- list(
+  # set-up such that there is almost zero change to get scores higher than log(30) (Intercept, b),
+  # with expected inter-patient and residual variability about 10 FAQ points (log(10) ~ 1/0.44) (which is too high but will not break the model) (sd, sigma),
+  # and default brms priors for hurdle mixture parameter (hu)
+  fix = c( prior( normal(1.6,0.6), class = Intercept ), prior( beta(1,1), class = hu ), prior( exponential(0.44), class = sd ), prior( exponential(0.44), class = sigma ), prior( normal(0,1), class = b ) ),
+  ran = c( prior( normal(1.6,0.6), class = Intercept ), prior( beta(1,1), class = hu ), prior( exponential(0.44), class = sd ), prior( exponential(0.44), class = sigma ) ),
+  mon = c( prior( normal(1.6,0.6), class = Intercept ), prior( beta(1,1), class = hu ), prior( exponential(0.44), class = sd ), prior( exponential(0.44), class = sigma ), prior( normal(0,1), class = b ), prior( dirichlet(1), class = simo, coef = moevent1 ) )
+)
+
+# implementation: let the models learn from data
+m <- lapply( setNames( names(f), names(f) ),
+             function(i)
+               brm( family = hurdle_lognormal( link = "identity", link_sigma = "identity", link_hu = "logit" ),
+                    formula = f[[i]], prior = p[[i]],
+                    data = d, sample_prior = T, save_pars = save_pars(all = T),
+                    control = list( adapt_delta = ad ),
+                    chains = ch, iter = it, warmup = wu, cores = mcc, seed = s,
+                    file = paste0( "mods/pilot/",i,".rds" ), file_refit = "on_change",
+                    save_model = paste0("mods/pilot/",i,".stan")
+               )
+             )
+
+# soft model checking via Rhat
+cbind.data.frame( Rhat = sapply( names(m) , function(i) max( rhat(m[[i]]), na.rm = T ) ) %>% round(3) )
+
+# plot Pareto-ks to see potentially influential cases
+par( mfrow = c(3,1) )
+for( i in names(m) ) plot( loo( m[[i]] ), label_points = T )
+par( mfrow = c(1,1) )
+
+# compare the models via loo
+with( m , loo( fix, ran, mon ) )
 
 
-# NEXT STEPS:
-# re-estimate models via brms:
-# 1) find an appropiate likelihood/link combo (hurdle lognormal w/ identity link?)
-# 2) fit separately
-# 2.1) unpooled categorical events model
-# 2.2) partially pooled categorical events model
-# 2.3) monotonic (ordinal) events model
-# 3) compare and contrast
-# 4) summarise
+# ---- posterior prediction ----
+
+# add retrodictions of means for each row in the data set
+# as well as intervals of retrodictions of single cases
+ppred <- d %>%
+  cbind.data.frame( ., fitted(m$mon) %>% as.data.frame() %>% rename( "fit2.5" = "Q2.5", "fit97.5" = "Q97.5" ) %>% select(-`Est.Error`) ) %>%
+  cbind.data.frame( ., predict(m$mon) %>% as.data.frame() %>% rename( "pred2.5" = "Q2.5", "pred97.5" = "Q97.5" ) %>% select( pred2.5, pred97.5 ) )
+
+# plot model's reproduction of observed data
+ppred %>%
+  ggplot( aes(x = event, y = faq) ) +
+  geom_point( color = "#E69F00", size = 5 ) + # observed data
+  geom_point( aes(x = event, y = Estimate ), size = 5.5, shape = 1 ) + # median prediction
+  geom_linerange( aes(ymin = fit2.5, ymax = fit97.5), linewidth = 3 ) + # 95% posterior predictive interval of the mean
+  geom_linerange( aes(ymin = pred2.5, ymax = pred97.5), linewidth = 1 ) + # 95% posterior predictive interval of the score
+  scale_x_discrete( labels = c( "pre", paste0( "r", seq(1,5,2) ) ) ) +
+  facet_wrap( ~ id, nrow = 7 ) +
+  theme_bw( base_size = 18 )
+
+# save it
+ggsave( "figs/pilot/data_reproduction.jpg", dpi = 300, width = 13.1, height = 14.3 )
+
+# compute contrasts against screening from posterior predictions of the mean
+contr <- posterior_epred( m$mon, newdata = data.frame( event = levels(d$event), faq = NA, id = "IPN000" ),
+                          allow_new_levels = T, re_formula = NA
+                          ) %>%
+  # format it
+  `colnames<-`( levels(d$event) ) %>%
+  as.data.frame() %>%
+  # calculate the contrasts
+  mutate( 'r1-screening' = r1 - screening,
+          'r3-screening' = r3 - screening,
+          'r5-screening' = r5 - screening
+          )
+
+# extract summaries of the contrasts
+csum <- apply( contr, 2, function(x) c( median(x), hdi(x) ) ) %>%
+  t() %>% as.data.frame() %>%
+  `colnames<-`( c("Md","95HDI_low", "95HDI_upp") ) %>%
+  round(2) %>%
+  rownames_to_column( "contrast" )
+
+# save it as csv
+write.table( csum, "tabs/pilot/contrasts_sum.csv", sep = ",", row.names = F, quote = F )

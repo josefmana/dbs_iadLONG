@@ -1,0 +1,8 @@
+contrast,Md,95HDI_low,95HDI_upp
+screening,3.08,2.3,3.95
+r1,3.26,2.52,4.05
+r3,3.41,2.6,4.4
+r5,3.59,2.32,5.1
+r1-screening,0.1,-0.32,0.83
+r3-screening,0.29,-0.58,1.29
+r5-screening,0.5,-1.04,2.07
