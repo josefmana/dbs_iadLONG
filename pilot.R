@@ -21,13 +21,13 @@ sapply( c("sess","mods","tabs","figs") , function(i) if( !dir.exists(i) ) dir.cr
 sapply( paste0( c("mods","tabs","figs"), "/pilot" ), function(i) if( !dir.exists(i) ) dir.create(i) )
 
 # set theme for plotting in ggplot2
-theme_set( theme_default( base_size = 18 ) )
+theme_set( theme_minimal( base_size = 18 ) )
 
 # set-up Stan options
 mcc = 8 # all CPU cores
 ch = 4 # four chains
-it = 1500 # total iterations per chain
-wu = 500 # warm-um iterations per chain
+it = 2000 # total iterations per chain
+wu = 1000 # warm-um iterations per chain
 ad = .999 # adapt_delta parameter
 s = 87542 # seed for reproducibility
 
@@ -36,7 +36,7 @@ d0 <- read.csv( "_nogithub/data/data_stn_bil.csv", sep = "\t" )
 sc <- read.csv( "_nogithub/raw/scoring.csv", sep = ";" )
 
 
-# ---- prepare functions ----
+# ---- FUNCTIONS ----
 
 # sanity plot showing distribution of observations across patients and events
 sanity_plot <- function( data = d1, output = "figs/pilot/sanity_precheck.jpg" ) {
@@ -59,7 +59,7 @@ sanity_plot <- function( data = d1, output = "figs/pilot/sanity_precheck.jpg" ) 
 }
 
 
-# ---- preprocess data ----
+# ---- DATA PREPROCESSING ----
 
 # transform reverse-coded scores and calculate sum scores
 for ( i in sc$scale ) {
@@ -107,7 +107,7 @@ d1 <- d1[ with(d1, !(id == "IPN584" & event == "r3") ) , ]
 d1[ with( d1, id == "IPN243" & event == "r1"), "event" ] <- "r3"
 
 
-# ---- describe data ----
+# ---- DATA DESCRIPTION ----
 
 # list columns to be described (continuous cvar and nominal nvar)
 cvar <- c("edu_years","hy_stage","age_surg","age_psycho","surg_to_psycho","faq","pdaq","drs","bdi","staix1","staix2","age_medic","surg_to_medic","ledd")
@@ -153,7 +153,7 @@ for ( i in names(dtab) ) write.table( dtab[[i]], paste0("tabs/pilot/desc_",i,".c
 sanity_plot( data = d1, output = "figs/pilot/sanity_postcheck.jpg" )
 
 
-# ---- statistical modelling ----
+# ---- STATISTICAL MODELLING ----
 
 # prepare a data set for Bayesian hierarchical modelling
 # will fit three (hurdle) lognormal GLMMs using events as: (i) 'fixed effects', (ii) 'random effects' and (iii) monotonic effects
@@ -191,7 +191,7 @@ m <- lapply( setNames( names(f), names(f) ),
                )
              )
 
-# soft model checking via Rhat
+# soft model checking via Rhats
 cbind.data.frame( Rhat = sapply( names(m) , function(i) max( rhat(m[[i]]), na.rm = T ) ) %>% round(3) )
 
 # plot Pareto-ks to see potentially influential cases
@@ -203,13 +203,19 @@ par( mfrow = c(1,1) )
 with( m , loo( fix, ran, mon ) )
 
 
-# ---- posterior prediction ----
+# ---- POSTERIOR PREDICTION ----
+
+# select the model for presentation
+# why is it arguably the worst one (fixed)?
+m0 <- m$fix
+
+# ---- posterior predictive check (a.k.a. retrodictions) ----
 
 # add retrodictions of means for each row in the data set
 # as well as intervals of retrodictions of single cases
 ppred <- d %>%
-  cbind.data.frame( ., fitted(m$mon) %>% as.data.frame() %>% rename( "fit2.5" = "Q2.5", "fit97.5" = "Q97.5" ) %>% select(-`Est.Error`) ) %>%
-  cbind.data.frame( ., predict(m$mon) %>% as.data.frame() %>% rename( "pred2.5" = "Q2.5", "pred97.5" = "Q97.5" ) %>% select( pred2.5, pred97.5 ) )
+  cbind.data.frame( ., fitted(m0) %>% as.data.frame() %>% rename( "fit2.5" = "Q2.5", "fit97.5" = "Q97.5" ) %>% select(-`Est.Error`) ) %>%
+  cbind.data.frame( ., predict(m0) %>% as.data.frame() %>% rename( "pred2.5" = "Q2.5", "pred97.5" = "Q97.5" ) %>% select( pred2.5, pred97.5 ) )
 
 # plot model's reproduction of observed data
 ppred %>%
@@ -225,8 +231,10 @@ ppred %>%
 # save it
 ggsave( "figs/pilot/data_reproduction.jpg", dpi = 300, width = 13.1, height = 14.3 )
 
+# ---- table of contrasts ----
+
 # compute contrasts against screening from posterior predictions of the mean
-contr <- posterior_epred( m$mon, newdata = data.frame( event = levels(d$event), faq = NA, id = "IPN000" ),
+contr <- posterior_epred( m0, newdata = data.frame( event = levels(d$event), faq = NA, id = "IPN000" ),
                           allow_new_levels = T, re_formula = NA
                           ) %>%
   # format it
@@ -239,11 +247,41 @@ contr <- posterior_epred( m$mon, newdata = data.frame( event = levels(d$event), 
           )
 
 # extract summaries of the contrasts
-csum <- apply( contr, 2, function(x) c( median(x), hdi(x) ) ) %>%
+csum <- apply( contr, 2, function(x) c( median(x), sum(x>0)/length(x), hdi(x) ) ) %>%
   t() %>% as.data.frame() %>%
-  `colnames<-`( c("Md","95HDI_low", "95HDI_upp") ) %>%
+  `colnames<-`( c("Md","Pr(b>0)","95%HDI_low", "95%HDI_upp") ) %>%
   round(2) %>%
   rownames_to_column( "contrast" )
 
 # save it as csv
 write.table( csum, "tabs/pilot/contrasts_sum.csv", sep = ",", row.names = F, quote = F )
+
+# ---- figure of contrasts ----
+
+# plot it
+contr %>%
+  select( contains("-") ) %>%
+  pivot_longer( everything(), names_to = "contrast", values_to = "estimate" ) %>%
+  mutate(
+    contrast = case_when(
+      contrast == "r1-screening" ~ "R1-minus-pre",
+      contrast == "r3-screening" ~ "R3-minus-pre",
+      contrast == "r5-screening" ~ "R5-minus-pre"
+    ) %>% factor( ., levels = paste0("R",c(5,3,1),"-minus-pre"), ordered = T )
+  ) %>%
+  ggplot( aes( x = estimate, y = contrast, fill = stat(x>0) ) ) +
+  stat_halfeye( .width = .95, point_interval = "median_hdi", size = 10 ) +
+  labs( y = NULL, x = "Estimated median of change (FAQ points)",
+        title = "Contrasts comparing post-surgery vs. pre-surgery FAQ\nbased on fixed effect lognormal GLMM"
+        ) +
+  scale_fill_manual( values = c( "grey81", "#56B4E9" ) ) + # make it a Lapras plot
+  theme( legend.position = "none", plot.title = element_text( hjust = .5 ) )
+
+# save it
+ggsave( "figs/pilot/contrasts.jpg", dpi = 300, width = 13.1, height = 8.94 )
+
+
+# ---- SESSION INFO ----
+
+# write the sessionInfo() into a .txt file
+capture.output( sessionInfo(), file = "sess/pilot.txt" )
