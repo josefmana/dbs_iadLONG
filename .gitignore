@@ -1,4 +1,5 @@
 # files not supposed to be shared
+mods/*.rds
 **/.DS_Store
 _nogithub/
 
