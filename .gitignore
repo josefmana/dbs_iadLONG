@@ -1,7 +1,9 @@
 # files not supposed to be shared
 mods/**/*.rds
 **/.DS_Store
-_nogithub/
+
+# ignore all _ folders but include _ files
+_*/
 
 ##################
 # R-specific files

@@ -1,0 +1,12 @@
+var,block,Preop.,Y1,Y3,Y5
+Years after surgery,Time from surgery,-0.38 (0.25),1.03 (0.13),3.11 (0.26),5.08 (0.30)
+Sex (females/males),Baseline characteriscs,29/41,18/30,19/21,8/5
+PD Type (akinetic-rigid/tremordominant),Baseline characteriscs,43/12,36/8,21/9,3/1
+Age at surgery (years),Baseline characteriscs,57.04 (13.91),56.62 (11.69),56.57 (12.53),50.80 (14.82)
+Education (years),Baseline characteriscs,13.00 (5.00),13.00 (4.25),13.00 (3.00),17.50 (6.00)
+HY stage,Baseline characteriscs,2.00 (0.50),2.00 (0.50),2.00 (0.50),2.50 (0.50)
+Age at assessment (years),Longitudinal outcomes,56.50 (14.20),57.73 (11.90),59.01 (12.67),55.38 (11.77)
+FAQ (range 0-30),Longitudinal outcomes,2.00 (4.75),2.00 (5.25),3.00 (6.00),2.00 (3.00)
+DRS-2 (range 0-144),Longitudinal outcomes,140.00 (4.75),141.00 (4.25),139.00 (4.50),138.00 (8.50)
+BDI-II (range 0-63),Longitudinal outcomes,8.00 (8.75),7.00 (10.25),7.00 (5.50),6.00 (12.00)
+LEDD (mg),Longitudinal outcomes,1605.00 (555.00),760.00 (540.12),757.00 (721.00),700.00 (327.00)
