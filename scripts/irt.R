@@ -26,14 +26,15 @@ zerolead <- function(x) sub( "0.", ".", x, fixed = T ) # get rid of leading zero
 tabcol <- function(x) paste( table( x, useNA = "always"), collapse = "/" )
 
 # summarise central tendency and variability
-cenvar <- function(x, ct = "mean", var = "sd", dec = 2, sep = " ± ", end = "" ) {
+cenvar <-
+  
+  function(x, ct = "mean", var = "sd", dec = 2, sep = " ± ", end = "" ) {
     
-    paste0( rprint( do.call( ct,list(x, na.rm = T) ), dec),
-            sep,
-            rprint( do.call(var,list(x, na.rm = T) ), dec),
-            end
-            )
-    
+    paste0(
+      rprint( do.call( ct,list(x, na.rm = T) ), dec), sep,
+      rprint( do.call(var,list(x, na.rm = T) ), dec), end
+    )
+
   }
 
 # extract values from linear regression
@@ -209,7 +210,7 @@ t2 <-
   tab_footnote( locations = cells_column_spanners("Becker et al. (2020)"), footnote = "faq ~ 1 + moca + updrs_iii + sex + age + pd_duration" ) %>%
   tab_footnote( locations = cells_column_spanners("LEDD adjusted"), footnote = "faq ~ 1 + moca + updrs_iii + sex + age + ledd" ) %>%
   tab_footnote( locations = cells_column_labels( contains("updrs_iii") ), footnote = "assessed in medication ON state" ) %>%
-  tab_source_note( source_note = "n: number of patients included; values in MoCA and UPDRS-III columns represent standardised regression coefficients with p-value from t-test for each coefficient equalling zero in bracket; in the original, Becker et al. (2020) used the model used in the third column group and report significant MoCA effects for items 1, 2, 7 and 9, and significant UPDRS-III effects for items 3, 4, 5, 6, 7 and 10; *p < .05" )
+  tab_source_note( source_note = "n: number of patients included; values in MoCA and UPDRS-III columns represent standardised regression coefficients with p-value from t-test for each coefficient equalling zero in brackets; in the original, Becker et al. (2020) used the model used in the third column group and report significant MoCA effects for items 1, 2, 7 and 9, and significant UPDRS-III effects for items 3, 4, 5, 6, 7 and 10; *p < .05" )
 
 
 # RESULTS SAVING ----
