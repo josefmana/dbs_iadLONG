@@ -1,4 +1,4 @@
-# This script computes and summarises IRTs
+# This script differentiates FAQ items to motor and cognitive scales.
 
 # clear environment
 rm( list = ls() )
