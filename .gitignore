@@ -1,6 +1,7 @@
 # files not supposed to be shared
 mods/**/*.rds
 **/.DS_Store
+**/*.docx
 
 # ignore all _ folders but include _ files
 _*/

@@ -314,6 +314,14 @@ t3 %>%
   theme_bw() +
   theme( legend.position = "right", legend.key.height = unit(1,"cm") )
 
+# save it
+ggsave( plot = last_plot(),
+        filename = here("figs","FAQ items distinction.jpg"),
+        dpi = 300,
+        width = 7,
+        height = 10.3
+        )
+
 
 # ---- SESSION INFO ----
 
