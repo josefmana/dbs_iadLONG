@@ -152,21 +152,21 @@ A total of ... patients (mean age ... pre-surgery, ...% males) were enrolled in 
 
 Patients with PD were recruited from the Movement Disorders Center, Department of Neurology, First Faculty of Medicine and General University hospital in Prague. All patients were examined by a trained neurologist specializing in movement disorders and met the UK PD Society Brain Bank criteria [@kubu2018]. All of the participants were suffering from motor fluctuations and/or disabling dyskinesia and had been indicated for treatment with STN DBS. For clinical and demographic details see Table 1. Exclusion criteria included: PDD based on MDS criteria (), atypical or secondary parkinsonism, depression scores in the severe or moderate range according to Beck Depression Inventory (BDI-II) and psychiatric evaluation, florid psychotic manifestation (hallucination or delusions), anticholinergic medications and other medical or neurological conditions potentially causing cognitive impairment (e.g., epileptic seizures, stroke, head trauma, or tumor). All PD patients were undergoing dopaminergic therapy (i.e., levodopa or dopamine agonist, or a combination of the two), and their levodopa equivalent daily dose was calculated before and after surgery [@tomlinson2010]. Bilateral STN DBS was performed as described in previous reports [@jech2006; @jech2012]. All patients gave their written informed consent for participation. The study was approved by the Ethics Committee of the General Hospital in Prague, Czechia. 
 
-# Assessments
+## Assessments
 
-## Neuropsychological Assessment
+### Neuropsychological Assessment
 
 All patients underwent a comprehensive and clinically relevant pre-surgical evaluation (baseline) consisting of neuropsychological, psychiatric, and neurological examinations by trained movement disorders specialists in individual fields (). The patients were then followed up 1 (% of the baseline population), 3 (), 5 (), 7 (), 9 (), 11 (), and 13 () years after the surgery. For details about the number of follow-up examinations undergone by each participant, see Fig. 2. 
 
 The neuropsychological assessment in pre-test-post-test followed the standard Movement Disorder Society neuropsychological batter at Level 1 for PD-MCI [@bezdicek2016; @bezdicek2017; @litvan2012] cognitive performance was assessed by Mattis Dementia Rating Scale, second edition (DRS-2) [@bezdicek2015; @jurica2001]. iADL and everyday functioning were measured by the PDAQ and FAQ self-reports. Lastly, depressive symptoms were assessed with the Beck Depression Scale (BDI-II) [@beck1996; @ciharova2020].
 
-## Neurological Examination
+### Neurological Examination
 
 The neurological examination included medical history, medication status, and motor status assessed by the Movement Disorder Society Unified Parkinson's Disease Rating Scale, part three (MDS-UPDRS-III). Scores of the patients that were examined with the older version of the Unified Parkinson's Disease Rating Scale (UPDRS-III) were converted to the MDS-UPDRS III scale using the method described by [@hentz2015]. All PD patients were treated with dopaminergic therapy, consisting of levodopa, dopamine agonists, or a combination of the two, and assessed during medication ON state. The LEDD was calculated at each assessment using the method from [@tomlinson2010].
 
 A psychiatric evaluation was done before the surgery to exclude patients with surgery-contradicting symptoms (pre-psychotic or florid psychotic symptoms or mood disorders including suicidal thoughts or any other risky neuropsychiatric complications) [@foley2018]. 
 
-## Statistical Analysis
+### Statistical Analysis
 
 First, descriptive statistics (mean and standard deviation) were calculated at each time point.
 
@@ -178,7 +178,7 @@ Based on previously published data, we calculated the two subscores - cognitive-
 
 # Conclusion:
 
-# Acknowledgements: 
+# Acknowledgements:
 
 Repovska Hana
 
