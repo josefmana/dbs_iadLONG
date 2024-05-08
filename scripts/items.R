@@ -23,7 +23,7 @@ rprint <- function( x, dec=2 ) sprintf( paste0("%.",dec,"f"), round( x, dec ) ) 
 zerolead <- function(x) sub( "0.", ".", x, fixed = T ) # get rid of leading zero
 
 # collapse table to a cell
-tabcol <- function(x) paste( table( x, useNA = "always"), collapse = "/" )
+tabcol <- function(x) paste( table( x, useNA = "no"), collapse = "/" )
 
 # summarise central tendency and variability
 cenvar <-
@@ -80,7 +80,7 @@ d0 <-
   
   # add FAQ
   left_join(
-    readRDS( here("_raw","item_responses.rds") )$faq[ , "screening", ] %>%
+    readRDS( here("_raw","resp_data.rds") )$faq[ , "screening", ] %>%
       t() %>%
       as.data.frame() %>%
       `colnames<-`( paste0("faq_", colnames(.) ) ) %>%
@@ -122,23 +122,18 @@ t1 <-
   
   data.frame(
     
-    var = c( "Sex (F/M/NA)",
-             "HY stage(1/1.5/2/2.5/3/4/NA)",
-             "PD type (akinetic-rigid/tremor-dominant/NA)",
+    var = c( "Sex (F/M)",
              "PD duration (years)",
              "LEDD (mg)",
              "Education (years)",
              "Age (years)",
              "MoCA",
-             "UPDRS-III (med ON)",
-             "UPDRS III (med OFF)",
-             paste0( "FAQ item #", 1:10 )
-             ),
+             "UPDRS-III (med ON)"
+    ),
     
-    val = c( sapply( c("sex","hy_stage","type_pd"), function(i) tabcol( d1[[i]]) ),
-             sapply( c("pd_dur","ledd_mg","edu_years","age_years","moca","updrs_iii_on","updrs_iii_off"), function(i) cenvar( d1[[i]] ) ),
-             sapply( paste0("faq_",1:10), function(i) cenvar( d1[[i]] ) )
-             )
+    val = c( sapply( c("sex"), function(i) tabcol( d1[[i]]) ),
+             sapply( c("pd_dur","ledd_mg","edu_years","age_years","moca","updrs_iii_on"), function(i) cenvar( d1[[i]] ) )
+    )
     
   ) %>%
   
@@ -223,3 +218,4 @@ gtsave( t2, here("tabs","irt_replication.docx") )
 
 # write the sessionInfo() into a .txt file
 capture.output( sessionInfo(), file = here("scripts","irt.txt") )
+

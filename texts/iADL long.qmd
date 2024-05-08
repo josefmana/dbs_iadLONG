@@ -1,0 +1,70 @@
+---
+title: "iADL long"
+format: html
+bibliography: references.bib 
+link-citations: true
+---
+
+**Title: Cognitive-Driven and Motor-Driven Activities of Daily Living Impairment after Deep Brain Stimulation in Parkinson's Disease**
+
+**Authors:** Kvapilova M.\*1**,** Janko D.\*1, Mana J.\*1, Repovska H.1, Ruzicka, F.1, Havlik F.1, Fecikova A.1, Uhrová T.1, Ruzicka E.1, Urgosik D.2, Jech R.1, Bezdicek O.1
+
+​​1 Department of Neurology and Centre of Clinical Neuroscience, First Faculty of Medicine and General University Hospital in Prague, Charles University, Prague, Czechia
+
+2 Department of Stereotactic and Radiation Neurosurgery, Na Homolce Hospital, Prague, Czechia
+
+\*These authors contributed equally
+
+**Abstract:**
+
+**Keywords:**
+
+**Introduction:**
+
+Parkinson's disease (PD) is a progressive neurodegenerative disorder that impacts numerous aspects of day-to-day life. One of the areas of life that is affected early in the disease is the ability to perform activities of daily living (ADL) [@hariz2010]. Worsening of motor and cognitive symptoms due to PD progression has gradual deteriorating effects on basic ADL (BADL) as well as instrumental activities of daily living (iADL) [@shulman2008]. Given the different cognitive and social demands of BADL and iADL, it is important to distinguish between the two categories. BADL include bathing, toileting, eating, dressing, and personal hygiene [@lawton1969]. On the other hand, iADL consist of more complex activities such as shopping, cooking, doing the laundry, or keeping financial records [@lawton1969]. Generally, assessment of iADL across different populations has implications in characterizing aging or disease progression [@gold2012]. Impairments in cognitive-driven iADL have also been shown to be one of potential predictors of severe worsening of cognitive impairment in PD patients [@becker2018; @becker2021]. Hence, studying the changes in iADL over time is crucial for a better understanding of disease progressions and treatment effects and better indetification of individuals who are at risk of cognitive decline.
+
+Correlates of iADL deterioration in PD have been studied and are persistent across different reports [@martin2013; @pirogovsky2013; @pirogovsky2014; @schmitter-edgecombe2021]. The most pronounced risk factors are PD related mild cognitive impairment (PD-MCI) and PD with dementia (PD-D) [@martin2013; @pirogovsky2013; @pirogovsky2014; @schmitter-edgecombe2021; @becker2022]. PD-MCI and PD-D are common symptoms of PD progression alongside worsening motor symptoms such as tremors, gait problems, and freezing. However, various therapeutical interventions are available that can alleviate some symptoms and slow down the progress of the disease [@chakraborty2020]. 
+
+Subthalamic deep brain stimulation (STN DBS), an invasive neurosurgical treatment, is an option for patients with PD suffering from medication-refractory motor complications. The motor effects of STN DBS have been studied extensively and are consistently positive [@deuschl2006]. On the other hand, STN DBS has been shown to have little to no effect on cognitive performance and neuropsychiatric symptoms with the exception of specific domains [@accolla2019; @alegret2001; @appleby2007; @bove2020; @drapier2006; @limousin2019; @mehanna2017; @parsons2006; @saint-cyr2000]. To this day, the non-motor effects of STN DBS are poorly understood and more research is needed to provide clarity on this topic.
+
+While there have been a number of reports, both short and long-term, on the trajectories of BADL scores in the literature [@aviles-olmos2014; @castrioto2011; @gervais-bernard2009; @krack2003; @lezcano2016; @limousin2019; @piboolnurak2007; @rodriguez-oroz2005; @schupbach2005; @zibetti2011], very few studies have examined the trends in iADL specific measures after STN DBS. To our knowledge, only two studies provide insight into the problematic of short-term trends in iADL [@bezdicek2022; @gorecka-mazur2019] Even though these two studies reported improved iADL scores after STN DBS, we are still lacking a comprehensive understanding of short as well as long-term trends in iADL.
+
+In this study, we try to address this issue by studying iADL with the Functional Activities Questionnaire (FAQ) [@pfeffer1982]. FAQ is an indirect measure of iADl that can be divided into two subcategories - motor-driven and cognitive-driven iADL [@becker2018]. The two subcategories are distinguishable based on their correlations with cognitive (MoCA) and motor (UPDRS-III) batteries [@becker2018]. These features of FAQ allow us to examine each subcategory in time on its own and to also compare them to treach other across different time points in PD patients undergoing DBS. This will help us draw better-informed conclusions about the overall effect of STN DBS on the patients' lives. 
+
+Among others, one of the treatment goals of STN DBS is a long-term improvement of iADL; thus, it is desirable to understand the effects STN DBS has on them. Given the lack of clarity on the post-DBS surgery trends in iADL, we sought to explore the following; (1) iADL scores at 1, 3, 5, 7, 11, and 13 years follow-ups, (2) differences in cognitive- and motor-driven iADL, and (3) the relationship between FAQ trends and trends in other neurological, psychiatric and psychological measures (PDAQ, BDI, and UPDRS-III).
+
+**Methods:**
+
+**Participants**
+
+A total of ... patients (mean age ... pre-surgery, ...% males) were enrolled in the study. Patients were assessed at ... different time points: (a) before surgery (... months, n = ...), (b) 1 year after surgery (), (c) 3 years after surgery (), (d) 7 years after surgery (), (e) 11 years after surgery (), (f) ... (). 
+
+Patients with PD were recruited from the Movement Disorders Center, Department of Neurology, First Faculty of Medicine and General University hospital in Prague. All patients were examined by a trained neurologist specializing in movement disorders and met the UK PD Society Brain Bank criteria [@kubu2018]. All of the participants were suffering from motor fluctuations and/or disabling dyskinesia and had been indicated for treatment with STN DBS. For clinical and demographic details see Table 1. Exclusion criteria included: PDD based on MDS criteria (), atypical or secondary parkinsonism, depression scores in the severe or moderate range according to Beck Depression Inventory (BDI-II) and psychiatric evaluation, florid psychotic manifestation (hallucination or delusions), anticholinergic medications and other medical or neurological conditions potentially causing cognitive impairment (e.g., epileptic seizures, stroke, head trauma, or tumor). All PD patients were undergoing dopaminergic therapy (i.e., levodopa or dopamine agonist, or a combination of the two), and their levodopa equivalent daily dose was calculated before and after surgery [@tomlinson2010]. Bilateral STN DBS was performed as described in previous reports [@jech2006; @jech2012]. All patients gave their written informed consent for participation. The study was approved by the Ethics Committee of the General Hospital in Prague, Czechia. 
+
+**Assessments**
+
+**Neuropsychological Examination**
+
+All patients underwent a comprehensive and clinically relevant pre-surgical evaluation (baseline) consisting of neuropsychological, psychiatric, and neurological examinations by trained movement disorders specialists in individual fields (). The patients were then followed up 1 (% of the baseline population), 3 (), 5 (), 7 (), 9 (), 11 (), and 13 () years after the surgery. For details about the number of follow-up examinations undergone by each participant, see Fig. 2. 
+
+The neuropsychological assessment in pre-test-post-test followed the standard Movement Disorder Society neuropsychological batter at Level 1 for PD-MCI [@bezdicek2016; @bezdicek2017; @litvan2012] cognitive performance was assessed by Mattis Dementia Rating Scale, second edition (DRS-2) [@bezdicek2015] ([Jurica et al., 2001)](https://www.zotero.org/google-docs/?rrrQJJ). iADL and everyday functioning were measured by the PDAQ and FAQ self-reports. Lastly, depressive symptoms were assessed with the Beck Depression Scale (BDI-II) (Beck et al., 1996) [@ciharova2020].\
+
+**Neurological Examination**
+
+The neurological examination included medical history, medication status, and motor status assessed by the Movement Disorder Society Unified Parkinson's Disease Rating Scale, part three (MDS-UPDRS-III). Scores of the patients that were examined with the older version of the Unified Parkinson's Disease Rating Scale (UPDRS-III) were converted to the MDS-UPDRS III scale using the method described by [@hentz2015]. All PD patients were treated with dopaminergic therapy, consisting of levodopa, dopamine agonists, or a combination of the two, and assessed during medication ON state. The LEDD was calculated at each assessment using the method from [@tomlinson2010].
+
+A psychiatric evaluation was done before the surgery to exclude patients with surgery-contradicting symptoms (pre-psychotic or florid psychotic symptoms or mood disorders including suicidal thoughts or any other risky neuropsychiatric complications) [@foley2018]. 
+
+**Statistical Analysis**
+
+First, descriptive statistics (mean and standard deviation) were calculated at each time point.
+
+Based on previously published data, we calculated the two subscores - cognitive-driven (FAQc) and motor-drive (FAQm) [@becker2018]. 
+
+**Results:**
+
+**Discussion:**
+
+**Conclusion:**
+
+**References:**
