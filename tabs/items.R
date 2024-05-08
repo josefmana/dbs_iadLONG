@@ -23,7 +23,7 @@ rprint <- function( x, dec=2 ) sprintf( paste0("%.",dec,"f"), round( x, dec ) ) 
 zerolead <- function(x) sub( "0.", ".", x, fixed = T ) # get rid of leading zero
 
 # collapse table to a cell
-tabcol <- function(x) paste( table( x, useNA = "no"), collapse = "/" )
+tabcol <- function(x) paste( table( x, useNA = "always"), collapse = "/" )
 
 # summarise central tendency and variability
 cenvar <-
@@ -125,18 +125,23 @@ t1 <-
   
   data.frame(
     
-    var = c( "Sex (F/M)",
+    var = c( "Sex (F/M/NA)",
+             "HY stage(1/1.5/2/2.5/3/4/NA)",
+             "PD type (akinetic-rigid/tremor-dominant/NA)",
              "PD duration (years)",
              "LEDD (mg)",
              "Education (years)",
              "Age (years)",
              "MoCA",
-             "UPDRS-III (med ON)"
-    ),
+             "UPDRS-III (med ON)",
+             "UPDRS III (med OFF)",
+             paste0( "FAQ item #", 1:10 )
+             ),
     
-    val = c( sapply( c("sex"), function(i) tabcol( d1[[i]]) ),
-             sapply( c("pd_dur","ledd_mg","edu_years","age_years","moca","updrs_iii_on"), function(i) cenvar( d1[[i]] ) )
-    )
+    val = c( sapply( c("sex","hy_stage","type_pd"), function(i) tabcol( d1[[i]]) ),
+             sapply( c("pd_dur","ledd_mg","edu_years","age_years","moca","updrs_iii_on","updrs_iii_off"), function(i) cenvar( d1[[i]] ) ),
+             sapply( paste0("faq_",1:10), function(i) cenvar( d1[[i]] ) )
+             )
     
   ) %>%
   
@@ -308,6 +313,14 @@ t3 %>%
   facet_wrap( ~ Item, nrow = 5, scales = "free_y" ) +
   theme_bw() +
   theme( legend.position = "right", legend.key.height = unit(1,"cm") )
+
+# save it
+ggsave( plot = last_plot(),
+        filename = here("figs","FAQ items distinction.jpg"),
+        dpi = 300,
+        width = 7,
+        height = 10.3
+        )
 
 
 # ---- SESSION INFO ----
